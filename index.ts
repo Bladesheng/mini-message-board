@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config();
 
@@ -8,29 +9,32 @@ const port = process.env.PORT;
 
 app.set("view engine", "ejs");
 
-const user = {
-  firstName: "Tim",
-  lastName: "Cook",
-  admin: true
-};
-
-const posts = [
-  { title: "Title 1", body: "Body 1" },
-  { title: "Title 2", body: "Body 2" },
-  { title: "Title 3", body: "Body 3" },
-  { title: "Title 4", body: "Body 4" }
+const messages = [
+  {
+    text: "Hi there!",
+    user: "Amando",
+    added: new Date()
+  },
+  {
+    text: "Hello World!",
+    user: "Charles",
+    added: new Date()
+  }
 ];
 
 app.get("/", (req: Request, res: Response) => {
   res.render("pages/index", {
-    user: user
+    messages: messages
   });
 });
 
-app.get("/articles", (req: Request, res: Response) => {
-  res.render("pages/articles", {
-    articles: posts
-  });
+app.get("/new", (req: Request, res: Response) => {
+  res.render("pages/new");
+});
+
+app.use((req: Request, res: Response) => {
+  res.status(404);
+  res.sendFile(path.resolve("public/404.html"));
 });
 
 app.listen(port, () => {

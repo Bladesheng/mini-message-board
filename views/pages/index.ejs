@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include("../partials/head", {title: "Home"}) %>
-  <body>
-    <h1>Hello, I am <%= user.firstName + " " + user.lastName %></h1>
-    <% if (user.admin) { %>
-    <p>Let met tell you a secret: <b>I am an admin</b></p>
+  <%- include("../partials/head", {title: "Messages Board"}) %>
 
-    <% } %> <%- include("../partials/footer") %>
+  <body>
+    <ol>
+      <% messages.forEach((message) => { %>
+      <li>
+        <h2><%= message.user %></h2>
+        <p class="text"><%= message.text %></p>
+        <% const hours = String(message.added.getHours()).padStart(2, "0")%> <% const minutes =
+        String(message.added.getMinutes()).padStart(2, "0") %>
+        <p class="date"><%= `${hours}:${minutes}` %></p>
+      </li>
+      <% }) %>
+    </ol>
+
+    <%- include("../partials/footer") %>
   </body>
 </html>
