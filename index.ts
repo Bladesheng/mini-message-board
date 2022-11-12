@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 
+import newRouter, { messages } from "./routes/new";
+
 dotenv.config();
 
 const app = express();
@@ -9,28 +11,13 @@ const port = process.env.PORT;
 
 app.set("view engine", "ejs");
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
-
 app.get("/", (req: Request, res: Response) => {
   res.render("pages/index", {
     messages: messages
   });
 });
 
-app.get("/new", (req: Request, res: Response) => {
-  res.render("pages/new");
-});
+app.use("/new", newRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404);
